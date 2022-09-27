@@ -5,7 +5,8 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
-import Particle from './components/Particle/Particle'
+// import Particle from './components/Particle/Particle'
+import ParticlesBg from 'particles-bg';
 import Clarifai from 'clarifai';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
@@ -66,7 +67,7 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <Particle className='particles'/>
+        <ParticlesBg type="circle" bg={true} />
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
         { route === 'home' 
           ? <div> 
