@@ -5,7 +5,6 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
-// import Particle from './components/Particle/Particle'
 import ParticlesBg from 'particles-bg';
 import Clarifai from 'clarifai';
 import Signin from './components/Signin/Signin';
@@ -22,7 +21,8 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      imageHeight: 0,
     }
   }
 
@@ -31,6 +31,7 @@ class App extends Component {
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
+    this.setState({imageHeight: height})
     return { // We will setState box{}
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -67,7 +68,31 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <ParticlesBg type="circle" bg={true} />
+        { this.state.imageHeight === 0 
+        ? <ParticlesBg 
+          type="circle"
+          bg={{
+            position: "absolute",
+            width: 100+"%",
+            height: 100+"%",
+            left: 0,
+            top: 0,
+            zIndex: -1
+          }}
+        /> 
+        : 
+          <ParticlesBg 
+            type="circle"
+            bg={{
+              position: "absolute",
+              width: 100+"%",
+              height: 100+(this.state.imageHeight/10)+"%",
+              left: 0,
+              top: 0,
+              zIndex: -1
+            }}
+          />
+        }
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
         { route === 'home' 
           ? <div> 
