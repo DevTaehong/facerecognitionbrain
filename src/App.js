@@ -23,7 +23,26 @@ class App extends Component {
       route: 'signin',
       isSignedIn: false,
       imageHeight: 0,
+      user: {
+        id: '', 
+        name: '', 
+        email: '', 
+        entries: 0, 
+        joined: ''
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({
+      user:{
+        id: data.id, 
+        name: data.name, 
+        email: data.email, 
+        entries: data.entries, 
+        joined: data.joined
+      }
+    });
   }
 
   calculateFaceLocation = (data) => {
@@ -32,7 +51,7 @@ class App extends Component {
     const width = Number(image.width);
     const height = Number(image.height);
     this.setState({imageHeight: height})
-    return { // We will setState box{}
+    return { // We will do setState box{}
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
       rightCol: width - (clarifaiFace.right_col * width),
@@ -65,22 +84,22 @@ class App extends Component {
   }
 
   render() {
-    const { isSignedIn, imageUrl, route, box } = this.state;
+    const { isSignedIn, imageUrl, route, box, user } = this.state;
     return (
       <div className="App">
         { this.state.imageHeight === 0 
-        ? <ParticlesBg 
-          type="circle"
-          bg={{
-            position: "absolute",
-            width: 100+"%",
-            height: 100+"%",
-            left: 0,
-            top: 0,
-            zIndex: -1
-          }}
-        /> 
-        : 
+          ? <ParticlesBg 
+            type="circle"
+            bg={{
+              position: "absolute",
+              width: 100+"%",
+              height: 100+"%",
+              left: 0,
+              top: 0,
+              zIndex: -1
+            }}
+          /> 
+          : 
           <ParticlesBg 
             type="circle"
             bg={{
@@ -93,21 +112,23 @@ class App extends Component {
             }}
           />
         }
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         { route === 'home' 
           ? <div> 
               <Logo />
-              <Rank />
+              <Rank name={user.name} entries={user.entries} />
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}
               />
-              <FaceRecognition box={box} imageUrl={imageUrl}/>
+              <FaceRecognition box={box} imageUrl={imageUrl} />
             </div>
           : (
-              route === 'signin'
-              ? <Signin onRouteChange={this.onRouteChange} />
-              : <Register onRouteChange={this.onRouteChange} /> 
+              route === 'signin' 
+              ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+              : ( route === 'signout' 
+                ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} /> 
+                : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />)
             )
         }
       </div>

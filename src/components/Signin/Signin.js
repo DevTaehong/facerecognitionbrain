@@ -18,7 +18,8 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3000/signin', { // fetch has get default
+        const { loadUser, onRouteChange } = this.props;
+        fetch('http://localhost:3000/signin', { // fetch has get default so used signin instead of default.
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
@@ -27,9 +28,10 @@ class Signin extends React.Component {
             })
         })
             .then(response => response.json())
-            .then(data => {
-                if (data === 'success') {
-                    this.props.onRouteChange('home'); // If I used 'onClick={onRouteChange('home')}' => when rendering it will be running.
+            .then(user => {
+                if (user) {
+                    loadUser(user)
+                    onRouteChange('home'); // If I used 'onClick={onRouteChange('home')}' => when rendering it will be running.
                                          // However, by adding arrow function, It's going to get called the function when it get clicked
                 }
             })
