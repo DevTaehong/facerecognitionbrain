@@ -6,13 +6,8 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
-import Clarifai from 'clarifai';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-
-const app = new Clarifai.App({
-  apiKey: 'b58172beddae4925b565b284608ad97d'
-});
 
 const initialState = {
   input: '',
@@ -72,8 +67,15 @@ class App extends Component {
   
   onPictureSubmit = () => {
     this.setState({imageUrl: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input) // this.state.imageUrl cannot work here because of how this.setState works.
-    .then((response) => {
+    fetch('http://localhost:3000/imageurl', { 
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
+                input: this.state.input
+            })
+    })
+    .then(response => response.json())
+    .then(response => {
       if (response) {
         fetch('http://localhost:3000/image', { 
             method: 'put',
@@ -92,7 +94,7 @@ class App extends Component {
     })
     .catch(err => console.log(err));
   }
-  
+
   onRouteChange = (route) => {
     if (route === 'signout') {
       this.setState(initialState);

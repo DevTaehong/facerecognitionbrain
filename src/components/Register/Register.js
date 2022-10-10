@@ -35,7 +35,7 @@ class Register extends React.Component {
         })
             .then(response => response.json())
             .then(user => {
-                if (user) {
+                if (user.id) {
                     loadUser(user)
                     onRouteChange('home'); // If I used 'onClick={onRouteChange('home')}' => when rendering it will be running.
                                          // However, by adding arrow function, It's going to get called the function when it get clicked
