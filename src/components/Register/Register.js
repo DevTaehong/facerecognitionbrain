@@ -24,7 +24,7 @@ class Register extends React.Component {
 
     onSubmitSignIn = () => {
         const { loadUser, onRouteChange } = this.props;
-        fetch('http://localhost:3000/register', { // fetch has get default
+        fetch('https://whispering-spire-95505.herokuapp.com/register', { // fetch has get default
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 

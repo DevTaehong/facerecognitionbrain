@@ -67,7 +67,7 @@ class App extends Component {
   
   onPictureSubmit = () => {
     this.setState({imageUrl: this.state.input})
-    fetch('http://localhost:3000/imageurl', { 
+    fetch('https://whispering-spire-95505.herokuapp.com/imageurl', { 
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
@@ -77,7 +77,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if (response) {
-        fetch('http://localhost:3000/image', { 
+        fetch('https://whispering-spire-95505.herokuapp.com/image', { 
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
