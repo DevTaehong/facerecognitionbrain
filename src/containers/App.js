@@ -66,33 +66,37 @@ class App extends Component {
   }
   
   onPictureSubmit = () => {
-    this.setState({imageUrl: this.state.input})
-    fetch('https://whispering-spire-95505.herokuapp.com/imageurl', { 
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
-                input: this.state.input
-            })
-    })
-    .then(response => response.json())
-    .then(response => {
-      if (response) {
-        fetch('https://whispering-spire-95505.herokuapp.com/image', { 
-            method: 'put',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
-                id: this.state.user.id
-            })
-        })
-        .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, { entries: count }))
-        })
-        .catch(console.log)
-      }
-      this.disPlayFaceBox(this.calculateFaceLocation(response))
-    })
-    .catch(err => console.log(err));
+    this.setState({imageUrl: this.state.input}) 
+    if(this.state.input){
+      fetch('https://whispering-spire-95505.herokuapp.com/imageurl', { 
+              method: 'post',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
+                  input: this.state.input
+              })
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch('https://whispering-spire-95505.herokuapp.com/image', { 
+              method: 'put',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
+                  id: this.state.user.id
+              })
+          })
+          .then(response => response.json())
+          .then(count => {
+            this.setState(Object.assign(this.state.user, { entries: count }))
+          })
+          .catch(console.log)
+        }
+        this.disPlayFaceBox(this.calculateFaceLocation(response))
+      })
+      .catch(err => console.log(err));
+    } else {
+      console.log('No url entered')
+    }
   }
 
   onRouteChange = (route) => {
