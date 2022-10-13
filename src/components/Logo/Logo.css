@@ -1,3 +1,8 @@
 .Tilt {
     background: linear-gradient(to right, rgb(254, 172, 94), rgb(199, 121, 208), rgb(75, 192, 200));
 }
+
+.safariZIndex {
+    /*  Source: https://css-tricks.com/forums/topic/safari-for-ios-z-index-ordering-bug-while-scrolling-a-page-with-a-fixed-element/ */
+    -webkit-transform: translate3d(0,0,0);
+}
