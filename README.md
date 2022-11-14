@@ -12,12 +12,9 @@
 * [Features](#features)
 * [Screenshots](#screenshots)
 * [Setup](#setup)
-* [Usage](#usage)
 * [Project Status](#project-status)
-* [Room for Improvement](#room-for-improvement)
-* [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
-<!-- * [License](#license) -->
+* [License](#license)
 
 
 ## General Information
@@ -56,8 +53,5 @@ Project is:  _complete_
 Created by [@devtaehong](https://www.github.com/devtaehong) - feel free to contact me!
 
 
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
-
-<!-- You don't have to include all sections - just the one's relevant to your project -->
+## License
+This project is open source and available under the [MIT License](https://github.com/DevTaehong/intelligent_robot/blob/master/LICENSE.md).
