@@ -8,11 +8,13 @@ import Rank from '../components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import Signin from '../components/Signin/Signin';
 import Register from '../components/Register/Register';
+import Age from '../components/Age/Age';
 
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  // box: {},
+  ageRange: '',
   route: 'signin',
   isSignedIn: false,
   imageHeight: 0,
@@ -30,7 +32,6 @@ class App extends Component {
     this.state = initialState;
   }
 
-
   loadUser = (data) => {
     this.setState({
       user:{
@@ -43,22 +44,26 @@ class App extends Component {
     });
   }
 
-  calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputImage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    this.setState({imageHeight: height})
-    return { // We will do setState box{}
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height)
-    }
-  }
+  // calculateFaceLocation = (data) => {
+  //   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  //   const image = document.getElementById('inputImage');
+  //   const width = Number(image.width);
+  //   const height = Number(image.height);
+  //   this.setState({imageHeight: height})
+  //   return { // We will do setState box{}
+  //     leftCol: clarifaiFace.left_col * width,
+  //     topRow: clarifaiFace.top_row * height,
+  //     rightCol: width - (clarifaiFace.right_col * width),
+  //     bottomRow: height - (clarifaiFace.bottom_row * height)
+  //   }
+  // }
   
-  disPlayFaceBox = (box) => {
-    this.setState({box: box}); // You can just use this.setState({box}) because of ES6
+  // disPlayFaceBox = (box) => {
+  //   this.setState({box: box}); // You can just use this.setState({box}) because of ES6
+  // }
+
+  ageRange = (data) => {
+    this.setState({ageRange: data.outputs[0].data.concepts[0].name})
   }
 
   onInputChange = (event) => {
@@ -68,7 +73,7 @@ class App extends Component {
   onPictureSubmit = () => {
     this.setState({imageUrl: this.state.input}) 
     if(this.state.input){
-      fetch('https://whispering-spire-95505.herokuapp.com/imageurl', { 
+      fetch('http://localhost:3000/imageurl', { 
               method: 'post',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
@@ -78,7 +83,7 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('https://whispering-spire-95505.herokuapp.com/image', { 
+          fetch('http://localhost:3000/image', { 
               method: 'put',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
@@ -91,7 +96,8 @@ class App extends Component {
           })
           .catch(console.log)
         }
-        this.disPlayFaceBox(this.calculateFaceLocation(response))
+        // this.disPlayFaceBox(this.calculateFaceLocation(response))
+        this.ageRange(response)
       })
       .catch(err => console.log(err));
     } else {
@@ -109,9 +115,10 @@ class App extends Component {
   }
 
   render() {
-    const { isSignedIn, imageUrl, route, box, user } = this.state;
+    const { isSignedIn, imageUrl, route, user, ageRange } = this.state;
     return (
       <div className="App">
+        {/* Adjust particleBg's canvas because when loading the image, the particleBg doesn't work properly */}
         { this.state.imageHeight === 0 
           ? <ParticlesBg 
             type="circle"
@@ -138,17 +145,20 @@ class App extends Component {
           />
         }
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        {/* After sign in */}
         { route === 'home' 
-          ? <div> 
+          ? <div > 
               <Logo />
               <Rank name={user.name} entries={user.entries} />
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onPictureSubmit={this.onPictureSubmit}
               />
-              <FaceRecognition box={box} imageUrl={imageUrl} />
+              <FaceRecognition imageUrl={imageUrl} />
+              <Age ageRange={ageRange} />
             </div>
           : (
+            // before sign in
               route === 'signin' 
               ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               : ( route === 'signout' 
