@@ -116,7 +116,7 @@ class App extends Component {
 		}
         if(imageFileUrl){
             this.setState({ isLoading: true });
-            fetch('http://localhost:3000/imageurl', { 
+            fetch('https://whispering-spire-95505.herokuapp.com/imageurl', { 
                     method: 'post',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
