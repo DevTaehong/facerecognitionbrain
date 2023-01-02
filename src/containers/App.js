@@ -1,174 +1,189 @@
 import React, { Component } from 'react';
 import './App.css';
 import Navigation from '../components/Navigation/Navigation';
-import Logo from '../components/Logo/Logo';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
-import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
-import Rank from '../components/Rank/Rank';
+import DisplayName from '../components/DisplayName/DisplayName';
 import ParticlesBg from 'particles-bg';
 import Signin from '../components/Signin/Signin';
-import Register from '../components/Register/Register';
-import Age from '../components/Age/Age';
+import SignUp from '../components/SignUp/SignUp';
+import Note from '../components/Note/Note';
+import swal from 'sweetalert';
 
 const initialState = {
-  input: '',
-  imageUrl: '',
-  // box: {},
-  ageRange: '',
-  route: 'signin',
-  isSignedIn: false,
-  imageHeight: 0,
-  user: {
-    id: '', 
-    name: '', 
-    email: '', 
-    entries: 0, 
-    joined: ''
-  }
+	ageResult: '',
+    input: '',
+    imageUrl: '',
+    isLoading: false,
+    ageRange: '',
+    route: 'signin',
+    isSignedIn: false,
+    user: {
+        id: '', 
+        name: '', 
+        email: '', 
+        joined: ''
+    }
 }
 class App extends Component {
-  constructor(){
-    super();
-    this.state = initialState;
-  }
-
-  loadUser = (data) => {
-    this.setState({
-      user:{
-        id: data.id, 
-        name: data.name, 
-        email: data.email, 
-        entries: data.entries, 
-        joined: data.joined
-      }
-    });
-  }
-
-  // calculateFaceLocation = (data) => {
-  //   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-  //   const image = document.getElementById('inputImage');
-  //   const width = Number(image.width);
-  //   const height = Number(image.height);
-  //   this.setState({imageHeight: height})
-  //   return { // We will do setState box{}
-  //     leftCol: clarifaiFace.left_col * width,
-  //     topRow: clarifaiFace.top_row * height,
-  //     rightCol: width - (clarifaiFace.right_col * width),
-  //     bottomRow: height - (clarifaiFace.bottom_row * height)
-  //   }
-  // }
-  
-  // disPlayFaceBox = (box) => {
-  //   this.setState({box: box}); // You can just use this.setState({box}) because of ES6
-  // }
-
-  ageRange = (data) => {
-    this.setState({ageRange: data.outputs[0].data.concepts[0].name})
-  }
-
-  onInputChange = (event) => {
-    this.setState({input: event.target.value});
-  }
-  
-  onPictureSubmit = () => {
-    this.setState({imageUrl: this.state.input}) 
-    if(this.state.input){
-      fetch('http://localhost:3000/imageurl', { 
-              method: 'post',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
-                  input: this.state.input
-              })
-      })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch('http://localhost:3000/image', { 
-              method: 'put',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
-                  id: this.state.user.id
-              })
-          })
-          .then(response => response.json())
-          .then(count => {
-            this.setState(Object.assign(this.state.user, { entries: count }))
-          })
-          .catch(console.log)
-        }
-        // this.disPlayFaceBox(this.calculateFaceLocation(response))
-        this.ageRange(response)
-      })
-      .catch(err => console.log(err));
-    } else {
-      console.log('No url entered')
+    constructor(){
+        super();
+        this.state = initialState;
     }
-  }
-
-  onRouteChange = (route) => {
-    if (route === 'signout') {
-      this.setState(initialState);
-    } else if (route === 'home') {
-      this.setState({isSignedIn: true});
+	
+    loadUser = (data) => {
+		this.setState({
+			user:{
+				id: data.id, 
+				name: data.name, 
+				email: data.email, 
+				joined: data.joined
+			}
+        });
     }
-    this.setState({route: route}); //Should warp this in curly brackets because it's an object
-  }
 
-  render() {
-    const { isSignedIn, imageUrl, route, user, ageRange } = this.state;
-    return (
-      <div className="App">
-        {/* Adjust particleBg's canvas because when loading the image, the particleBg doesn't work properly */}
-        { this.state.imageHeight === 0 
-          ? <ParticlesBg 
-            type="circle"
-            bg={{
-              position: "absolute",
-              width: 100+"%",
-              height: 100+"%",
-              left: 0,
-              top: 0,
-              zIndex: -1
-            }}
-          /> 
-          : 
-          <ParticlesBg 
-            type="circle"
-            bg={{
-              position: "absolute",
-              width: 100+"%",
-              height: 100+(this.state.imageHeight/10)+"%",
-              left: 0,
-              top: 0,
-              zIndex: -1
-            }}
-          />
-        }
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
-        {/* After sign in */}
-        { route === 'home' 
-          ? <div > 
-              <Logo />
-              <Rank name={user.name} entries={user.entries} />
-              <ImageLinkForm 
-                onInputChange={this.onInputChange} 
-                onPictureSubmit={this.onPictureSubmit}
-              />
-              <FaceRecognition imageUrl={imageUrl} />
-              <Age ageRange={ageRange} />
-            </div>
-          : (
-            // before sign in
-              route === 'signin' 
-              ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-              : ( route === 'signout' 
-                ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} /> 
-                : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />)
-            )
-        }
-      </div>
-    );
-  }
-}
+    onInputChange = (event) => {
+		this.setState({input: event.target.value}); 
+    }
+    
+	getAgeRange = (data) => {
+        this.setState({ageRange: data.outputs[0].data.concepts[0].name})
+		this.calculateAge(data.outputs[0].data.concepts[0].name)
+    }
 
-export default App;
+	ageResultMessage = (min, max, input) => {
+		min === 70 
+		?  this.setState({ageResult: "You look more than 70"}) 
+		:  input >= min && input <= max 
+					?	this.setState({ageResult: "You look like your age"}) 
+					: 	input > max 
+						? this.setState({ageResult: "You look younger than your age"}) 
+						: this.setState({ageResult: "You look older than your age"})
+	}
+
+	calculateAge = (ageRange) => {
+		const { input } = this.state;
+		if(ageRange === "50-59") {
+			return(
+				this.ageResultMessage(50, 59, input)
+			)
+		}
+		else if(ageRange === "0-2") {
+			return(
+				this.ageResultMessage(0, 2, input)
+			)
+		}
+		else if(ageRange === "3-9") {
+			return(
+				this.ageResultMessage(3, 9, input)
+			)
+		}
+		else if(ageRange === "10-19") {
+			return(
+				this.ageResultMessage(10, 19, input)
+			)
+		}
+		else if(ageRange === "20-29") {
+			return(
+				this.ageResultMessage(20, 29, input)
+			)
+		}
+		else if(ageRange === "30-39") {
+			return(
+				this.ageResultMessage(30, 39, input)
+			)
+		}
+		else if(ageRange === "40-49") {
+			return(
+				this.ageResultMessage(40, 49, input)
+			)
+		}
+		else if(ageRange === "60-69") {
+			return(
+				this.ageResultMessage(60, 69, input)
+			)
+		}
+		else if (ageRange === "more than 70") {
+			return(
+				this.ageResultMessage(70, 150, input)
+			)
+		}
+	}
+
+    onPictureSubmit = (imageFileUrl) => {
+		if(!this.state.input || isNaN(this.state.input)) {
+			swal("Please enter your age before testing it.");
+			return(0);
+		}
+        if(imageFileUrl){
+            this.setState({ isLoading: true });
+            fetch('http://localhost:3000/imageurl', { 
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
+                        imageFileUrl: imageFileUrl
+                    })
+            })
+            .then(response => response.json())
+            .then(response => {
+				this.getAgeRange(response);
+				this.setState({ isLoading: false });
+            }).catch(err => console.log(err));
+        } else {
+            console.log('No pic selected')
+        }
+    }
+
+    onRouteChange = (route) => {
+        if (route === 'signout') {
+        this.setState(initialState);
+        } else if (route === 'home') {
+        this.setState({isSignedIn: true});
+        }
+        this.setState({route: route}); //Should warp this in curly brackets because it's an object
+    }
+
+    render() {
+        const { isSignedIn, route, user, ageRange, isLoading, ageResult, input } = this.state;
+        return (
+			<div className="App">
+				<ParticlesBg 
+						type="circle"
+						bg={{
+							position: "absolute",
+							width: 100+"%",
+							height: 100+"%",
+							left: 0,
+							top: 0,
+							zIndex: -1
+						}}
+				/> 
+				<Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+				{/* After sign in */}
+				{ route === 'home' 
+					?   <div >
+							<DisplayName name={user.name} />
+							<Note />  
+							<ImageLinkForm
+								onPictureSubmit={this.onPictureSubmit}
+								ageRange={ageRange}
+								isLoading={isLoading}
+								onInputChange={this.onInputChange}
+								ageResult={ageResult}
+								input={input}
+							/>    
+						</div>
+					:   (
+							// before sign in
+							route === 'signin' 
+							? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+							: ( route === 'signout' 
+								? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} /> 
+								: <SignUp loadUser={this.loadUser} onRouteChange={this.onRouteChange} />)
+						)
+				}
+			</div>
+        );
+    }
+    }
+
+    export default App;

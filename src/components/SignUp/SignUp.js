@@ -1,34 +1,40 @@
 import React from 'react';
-import './Signin.css';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import './SignUp.css';
 
-class Signin extends React.Component {
+class SignUp extends React.Component {
     constructor(props) { // To use props, set props in constructor
         super(props);
         this.state = {
-            signInEmail: '',
-            signInPassword: '',
+            email: '',
+            password: '',
+            name: '',
             isLoading: false
         }
     }
+    
+    onNameChange = (event) => {
+        this.setState({name: event.target.value});
+    }
 
     onEmailChange = (event) => {
-        this.setState({signInEmail: event.target.value});
+        this.setState({email: event.target.value});
     }
 
     onPasswordChange = (event) => {
-        this.setState({signInPassword: event.target.value});
+        this.setState({password: event.target.value});
     }
 
     onSubmitSignIn = () => {
         const { loadUser, onRouteChange } = this.props;
-        this.setState({isLoading: true});
-        fetch('https://whispering-spire-95505.herokuapp.com/signin', { 
+        this.setState({loading: true});
+        fetch('https://whispering-spire-95505.herokuapp.com/register', { // fetch has get default
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ // It doesn't understand JavaScript, so change it to JSON 
-                email: this.state.signInEmail,
-                password: this.state.signInPassword
+                email: this.state.email,
+                password: this.state.password,
+                name: this.state.name
             })
         })
             .then(response => response.json())
@@ -37,18 +43,26 @@ class Signin extends React.Component {
                     loadUser(user)
                     onRouteChange('home'); // If I used 'onClick={onRouteChange('home')}' => when rendering it will be running.
                                          // However, by adding arrow function, It's going to get called the function when it get clicked
-                    this.setState({isLoading: false});
+                    this.setState({loading: false});                     
                 }
             })
     }
 
     render() {
-        const { onRouteChange } = this.props;
         return (
-            <div className="login-form mv4 w-100 w-50-m w-25-l mw6">
+            <div className="signup-form mv4 w-100 w-50-m w-25-l mw6">
                 <div>
-                    <h1>Login</h1>
+                    <h1>Sign up</h1>
                     <div className="content">
+                        <div className="input-field">
+                            <input 
+                                placeholder='Name'
+                                type="text" 
+                                name="name"  
+                                id="name" 
+                                onChange={this.onNameChange}
+                            />
+                        </div>
                         <div className="input-field">
                             <input 
                                 placeholder='Email'
@@ -62,19 +76,24 @@ class Signin extends React.Component {
                             <input type="password" id="password" name="password" placeholder="Password" onChange={this.onPasswordChange} />
                         </div>
                     </div>
-                    {this.state.isLoading 
-                        ?
+                    <div className="action">
+                        {this.state.isLoading 
+                            ?
                             <LoadingSpinner />
-                        :
-                        <div className="action">
-                            <button onClick={this.onSubmitSignIn}>Log in</button>
-                            <button onClick={() => onRouteChange('register')}>Sign up</button>
-                        </div>    
-                    }
+                            :<button 
+                                    onClick={this.onSubmitSignIn}
+                                    type="submit" 
+                                    value="Sign Up" 
+                            >
+                                Sign up
+                            </button>
+                        }
+                    </div>
                 </div>
             </div>
-        )
+        );
     }
+    
 }
 
-export default Signin;
+export default SignUp;

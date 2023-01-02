@@ -11,17 +11,30 @@
     background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 }
 
-.ba {
-    border-style: solid;
-    border-width: 1px;
+.button-26 {
+    opacity: 0.8;
+    box-shadow: 0 0 20px rgb(250 98 98 / 40%);
+    background: linear-gradient(to bottom right, #ef4765, #ff9a5a);
+    border: 0;
+    border-radius: 12px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 2.5;
+    padding: 0 1rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease-in-out;
 }
 
-.b--black-10 {
-    border-color: rgba(0, 0, 0, .1);
+.button-26:hover {
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+    -0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
+    0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
 }
 
 .db {
     display: block;
+    background-color: white;
 }
 
 .lh-copy {
@@ -50,42 +63,15 @@
     outline: 1px dotted currentColor;
 }
 
-.mw5 {
-    max-width: 16rem;
-}
-
 .black {
     color: #000;
-}
-
-.gray {
-    color: #777;
-}
-
-.ml0 {
-    margin-left: 0;
-}
-
-.mt2 {
-    margin-top: .5rem;
 }
 
 .tc {
     text-align: center;
 }
 
-.f6 {
-    font-size: .875rem;
-}
-
 .center {
     margin-right: auto;
     margin-left: auto;
-}
-
-.clip {
-    position: fixed !important;
-    _position: absolute !important;
-    clip: rect(1px 1px 1px 1px);
-    clip: rect(1px, 1px, 1px, 1px);
 }
