@@ -1,4 +1,4 @@
-# Intelligent Robot
+# how_old_do_I_look
 > Face detection app built with React, NodeJS and PostgreSQL. 
                     Clarifai's face detection API powers face detection. Demonstrates my ability to develop a full stack application.
                     It is fully hosted on the Heroku cloud application platform. 
