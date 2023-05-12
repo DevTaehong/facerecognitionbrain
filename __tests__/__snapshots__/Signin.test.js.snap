@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders as an anchor when no user is set 1`] = `
+<div
+  className="login-form mv4 w-100 w-50-m w-25-l mw6"
+>
+  <div>
+    <h1>
+      Login
+    </h1>
+    <div
+      className="content"
+    >
+      <div
+        className="input-field"
+      >
+        <input
+          id="email-address"
+          name="email-address"
+          onChange={[Function]}
+          placeholder="Email"
+          type="email"
+        />
+      </div>
+      <div
+        className="input-field"
+      >
+        <input
+          id="password"
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+        />
+      </div>
+    </div>
+    <div
+      className="action"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Log in
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Sign up
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders correctly 1`] = `
+<div
+  className="login-form mv4 w-100 w-50-m w-25-l mw6"
+>
+  <div>
+    <h1>
+      Login
+    </h1>
+    <div
+      className="content"
+    >
+      <div
+        className="input-field"
+      >
+        <input
+          id="email-address"
+          name="email-address"
+          onChange={[Function]}
+          placeholder="Email"
+          type="email"
+        />
+      </div>
+      <div
+        className="input-field"
+      >
+        <input
+          id="password"
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+        />
+      </div>
+    </div>
+    <div
+      className="action"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Log in
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Sign up
+      </button>
+    </div>
+  </div>
+</div>
+`;

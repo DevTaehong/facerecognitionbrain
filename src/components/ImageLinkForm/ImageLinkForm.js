@@ -10,6 +10,7 @@ const ImageLinkForm = ({ onPictureSubmit, ageRange, isLoading, onInputChange, ag
 	const [uploadingImg, setUploadingImg] = useState(false);
 	const [fileRemoved, setFileRemoved] = useState(false);
 
+	// It is in the ImgUploader function
     const getImageFileObject = (imageFile) => {
 		if (imageFile.file) {
 			setUploadingImg(false);
@@ -31,6 +32,7 @@ const ImageLinkForm = ({ onPictureSubmit, ageRange, isLoading, onInputChange, ag
 		}
 	}
 
+	// When a user clicks the delete Icon
 	const runAfterImageDelete = (file) => {
 		setFileRemoved(true);
 		console.log({ file })
@@ -119,20 +121,20 @@ const ImageLinkForm = ({ onPictureSubmit, ageRange, isLoading, onInputChange, ag
 							<LoadingSpinner />
 						:	
 							imageFileUrl &&
-									<div>
-										<input 
-											className='f4 p12 mr1 db center ba b--black mt1' 
-											type='text' 
-											onChange={onInputChange} 
-											placeholder='Please enter your age...'
-										/>
-										<button 
-											className='button-26 b mt1 mb2' 
-											onClick={event => onPictureSubmit(imageFileUrl, setFileRemoved(false))}
-										>
+								<div>
+									<input 
+										className='f4 p12 mr1 db center ba b--black mt1' 
+										type='text' 
+										onChange={onInputChange} 
+										placeholder='Please enter your age...'
+									/>
+									<button 
+										className='button-26 b mt1 mb2' 
+										onClick={event => onPictureSubmit(imageFileUrl, setFileRemoved(false))}
+									>
 										Test how old am I
-										</button>
-									</div>
+									</button>
+								</div>
 					}
 				</div>
 			</div>
