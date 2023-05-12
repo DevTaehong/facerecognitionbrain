@@ -25,6 +25,7 @@ The purpose of this project is to prove my ability to develop a full-stack appli
 - Node.js - version 18.12.1
 - Express - version 4.18.1
 - PostgreSQL - version 14.5
+- Jest - version 29.5
 
 
 ## Features
