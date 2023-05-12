@@ -1,10 +1,11 @@
-# Intelligent Robot
-> Face detection app built with React, NodeJS and PostgreSQL. 
-                    Clarifai's face detection API powers face detection. Demonstrates my ability to develop a full stack application.
-                    It is fully hosted on the Heroku cloud application platform. 
-                    <br>If you want to avoid creating an account, login with Email: demo@demo.com, Password: demo 
-                    <br>Copy and paste an image URL into the search box, and click detect.
-> Live demo [_here_](https://intelligent-robot.herokuapp.com). <!-- If you have the project hosted somewhere, include the link here. -->
+# how_old_do_I_look
+> Are you wondering how old you look? Check this application. 
+This app can predict your age from your face in an image and tell whether you look older or younger than your age. 
+I built this application by using powerful machine learning AI. If you want to avoid creating an account, login with 
+Email: demo@demo.com, Password: demo
+
+Note: App hosted on free Heroku server. Please allow 15-30s to spin up.
+> Live demo [_here_](http://how-old-do-i-look.herokuapp.com). <!-- If you have the project hosted somewhere, include the link here. -->
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -16,25 +17,21 @@
 * [Contact](#contact)
 * [License](#license)
 
-
 ## General Information
-The purpose of this project is to prove my ability to develop a full-stack application.
-<br>AI model for detecting the location of human faces in images.
-
+The purpose of this project is to prove my ability to develop a full-stack application. 
 
 ## Technologies Used
 - React - version 18.2.0
-- Node.js - version 16.17.0
+- Node.js - version 18.12.1
+- Express - version 4.18.1
 - PostgreSQL - version 14.5
 
 
 ## Features
-- Detect the location of human faces in images 
-
+- Predict users' age in images 
 
 ## Screenshots
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/71358207/201728272-98f0adb3-12e8-45fd-9eb5-526ac6f2644e.gif)
-
+![ezgif com-gif-maker-2](https://user-images.githubusercontent.com/71358207/210461462-50822ed5-e5f7-447e-82d5-6f9fcaa64a03.gif)
 
 ## Setup
 ```bash
@@ -54,4 +51,4 @@ Created by [@devtaehong](https://www.github.com/devtaehong) - feel free to conta
 
 
 ## License
-This project is open source and available under the [MIT License](https://github.com/DevTaehong/intelligent_robot/blob/master/LICENSE.md).
+This project is open source and available under the [MIT License](https://github.com/DevTaehong/how_old_do_I_look/blob/master/LICENSE.md).
